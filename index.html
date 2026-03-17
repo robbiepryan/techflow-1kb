@@ -1,0 +1,23 @@
+<canvas id=c><style>*{margin:0}canvas{width:100vw;height:100vh;display:block}</style><script>
+c.width=w=innerWidth;c.height=h=innerHeight;g=c.getContext('2d');
+onresize=()=>{c.width=w=innerWidth;c.height=h=innerHeight};
+t=0;mx=w/2;my=h/2;onmousemove=e=>{mx=e.x;my=e.y};
+P=[];for(i=0;i<160;i++)P[i]={x:Math.random()*w,y:Math.random()*h,s:Math.random()*2+.5,a:Math.random()*6.28,v:Math.random()+.3};S=Math.sin;C=Math.cos;
+function d(){t+=.012;g.fillStyle='rgba(5,2,18,.15)';g.fillRect(0,0,w,h);
+for(i=0;i<P.length;i++){p=P[i];p.x+=C(p.a+t*.3)*p.v;p.y+=S(p.a+t*.2)*p.v;
+dx=mx-p.x;dy=my-p.y;r=dx*dx+dy*dy;
+if(r<48400){p.x-=dx*.008;p.y-=dy*.008}
+p.x=(p.x%w+w)%w;p.y=(p.y%h+h)%h;
+g.beginPath();g.arc(p.x,p.y,p.s,0,7);
+g.fillStyle=`hsl(${220+S(t+i*.05)*40},${70+S(t*.5)*20}%,${55+S(t+i)*20}%)`;
+g.fill();g.shadowBlur=12;g.shadowColor=g.fillStyle;
+for(j=i+1;j<P.length;j++){q=P[j];ex=p.x-q.x;ey=p.y-q.y;d2=ex*ex+ey*ey;
+if(d2<9e3){g.beginPath();g.moveTo(p.x,p.y);g.lineTo(q.x,q.y);
+g.strokeStyle=`hsla(${240+S(t)*30},80%,65%,${(1-d2/9e3)*.35})`;g.stroke()}}}
+g.shadowBlur=0;g.font='bold 3.5vw sans-serif';g.textAlign='center';
+g.fillStyle=`hsl(${220+S(t*.7)*30},85%,78%)`;
+g.fillText('TechFlow',w/2,h/2-h*.03);
+g.font='1.6vw sans-serif';g.fillStyle=`hsla(${250+S(t)*20},70%,80%,.7)`;
+g.fillText('Innovation at the speed of thought',w/2,h/2+h*.04);
+requestAnimationFrame(d)}d()
+</script>
